@@ -1,0 +1,47 @@
+// draw.C --- 
+// 
+// Description: 
+// Author: HongyiWu,吴鸿毅
+// Email: wuhongyi@qq.com 
+// Created: 一 2月 24 17:49:11 2014 (+0800)
+// Last-Updated: 五 2月 28 11:20:45 2014 (+0800)
+//           By: HongyiWu,吴鸿毅
+//     Update #: 42
+// URL: http://wuhongyi.github.io 
+#include "TCanvas.h"
+#include "TGraph.h"
+
+using namespace std;
+
+
+
+int main()
+{
+  //TCanvas *MyC = new TCanvas("MyC","Test canvas",1)     //新建画板
+
+  const int n = 20;
+  const int z=1000;
+  double x[n]={5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100};
+  double y[n]={17,38,64,82,100,75,55,42,18,21,32,51,79,84,61,43,15,10,5,7};
+  double *p,*q;
+  p=new double[z];
+  q=new double[z];
+
+  TCanvas *c1 = new TCanvas("c1","Graph Draw Options",200,10,1280,1024);
+
+  TGraph *gr = new TGraph(n,x,y);
+  gr->Draw("A*");
+
+  for (int i=0;i<z;i++) {
+    p[i] = i*0.1;
+    q[i] = 39-0.8125*p[i]-0.00488281*p[i]*p[i]-6.10352e-05*p[i]*p[i]*p[i]+0*p[i]*p[i]*p[i]*p[i];}
+
+  TGraph *grr = new TGraph(z,p,q);
+  grr->Draw("C Same");
+  // c1->SaveAs("zzzzz.png");
+  // gr->Fit("pol9");
+  return 0;
+}
+
+// 
+// draw.C ends here

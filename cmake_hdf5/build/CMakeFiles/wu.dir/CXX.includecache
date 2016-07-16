@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/wu/桌面/hdf5_cmake/writedata.cpp
+iostream.h
+-
+iostream
+-
+string
+-
+H5Cpp.h
+/home/wu/桌面/hdf5_cmake/H5Cpp.h
+

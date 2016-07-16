@@ -1,0 +1,22 @@
+// example.cc --- 
+// 
+// Description: 
+// Author: HongyiWu,吴鸿毅
+// Email: wuhongyi@qq.com 
+// Created: 二 2月 25 19:03:12 2014 (+0800)
+// Last-Updated: 二 2月 25 19:28:44 2014 (+0800)
+//           By: HongyiWu,吴鸿毅
+//     Update #: 8
+// URL: http://wuhongyi.github.io 
+
+#include "MyMainFrame"
+using namespace std;
+
+int main() {
+  // Popup the GUI...
+  new MyMainFrame(gClient->GetRoot(),200,200);
+  return 0;
+}
+
+// 
+// example.cc ends here

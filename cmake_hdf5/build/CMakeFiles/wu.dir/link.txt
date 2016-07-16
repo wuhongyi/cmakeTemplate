@@ -1,0 +1,1 @@
+/usr/local/bin/g++   -std=c++11 -Wno-deprecated    CMakeFiles/wu.dir/writedata.cpp.o  -o wu -rdynamic -lhdf5 -lhdf5_cpp /usr/lib64/libhdf5.so.7 /usr/lib64/libhdf5_cpp.so.7 -lhdf5_hl /usr/lib64/libhdf5_hl.so.7 -lhdf5_hl_cpp /usr/lib64/libhdf5_hl_cpp.so.7 

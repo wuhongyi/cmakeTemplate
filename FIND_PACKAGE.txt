@@ -1,0 +1,37 @@
+##FIND_PACKAGE.txt --- 
+##
+##Description: 
+##Author: Hongyi Wu(吴鸿毅)
+##Email: wuhongyi@qq.com 
+##Created: 六 4月 11 20:53:55 2015 (+0800)
+##Last-Updated: 六 4月 11 21:12:23 2015 (+0800)
+##          By: Hongyi Wu(吴鸿毅)
+##    Update #: 2
+##URL: http://wuhongyi.github.io 
+
+#OpenMP
+FIND_PACKAGE( OpenMP REQUIRED)  #OpenMP并行
+if(OPENMP_FOUND)  
+#message("-- Found OpenMP")  
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")  
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")  
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")  
+endif()
+
+
+#MPI
+FIND_PACKAGE(MPI REQUIRED)  # 查找MPI文件 
+if(MPI_FOUND)  
+message("-- Found MPI:   please run in  ->   mpirun -np N ./xx ")
+INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH})  # 加入MPI头文件目录 
+endif() 
+
+if(MPI_FOUND)  
+#TARGET_LINK_LIBRARIES(TargetName ${MPI_LIBRARIES})     # 连接系统MPI相关库文件
+endif()
+
+
+
+
+##
+##FIND_PACKAGE.txt ends here

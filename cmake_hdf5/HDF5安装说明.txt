@@ -1,0 +1,27 @@
+HDF5安装说明.txt --- 
+;; 
+;; Description: 
+;; Author: Hongyi Wu(吴鸿毅)
+;; Email: wuhongyi@qq.com 
+;; Created: 五 6月 13 13:36:56 2014 (+0800)
+;; Last-Updated: 五 6月 13 16:49:27 2014 (+0800)
+;;           By: Hongyi Wu(吴鸿毅)
+;;     Update #: 2
+;; URL: http://wuhongyi.github.io 
+
+
+HDF5安装之后支持C++、fortron两种语言，下面的说明就只拿C++举例！
+
+HDF5软件安装可以在 系统-管理-添加/删除软件 安装，至少需要安装两个库
+查找 hdf5 
+
+安装 Manages extremely large and complex data collections(hdf5-1.8.7-1.el6.rf) ,装上这个就能看hdf5格式的数据。
+这时候，你在终端输入 h5 然后 Tab 补全 就会出来 h52gif h5debug h5import h5perf_serial h5stat h5c++ h5diff h5jam h5redeploy h5unjam h5cc h5dump h5ls h5repack h5copy h5fc h5mkgrp h5repart 这些选项。这是用终端使用 hdf5 软件。
+
+安装 Header files,libraries and development documentation for hdf5(hdf5-devel-1.8.7-1.el6.rf). ,这个的作用不用我多说。装上之后在 /usr/include 会增加它的Header文件，/usr/lib64会有 libhdf5.so libhdf5_cpp.so libhdf5.so.7 libhdf5_cpp.so.7 libhdf5_hl.so  libhdf5_hl.so.7 libhdf5_hl_cpp.so libhdf5_hl_cpp.so.7 等链接库（还有fortron语言的）,根据版本不同名字会有不同。
+
+这样我们就能通过 cmake 来使用 hdf5 软件了，只需要在 CMakeLists.txt 添加以下就能使用了
+/usr/lib64/libhdf5.so /usr/lib64/libhdf5_cpp.so /usr/lib64/libhdf5.so.7 /usr/lib64/libhdf5_cpp.so.7 /usr/lib64/libhdf5_hl.so  /usr/lib64/libhdf5_hl.so.7 /usr/lib64/libhdf5_hl_cpp.so /usr/lib64/libhdf5_hl_cpp.so.7
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
