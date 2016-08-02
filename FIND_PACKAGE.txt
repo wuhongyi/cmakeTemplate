@@ -4,10 +4,12 @@
 ##Author: Hongyi Wu(吴鸿毅)
 ##Email: wuhongyi@qq.com 
 ##Created: 六 4月 11 20:53:55 2015 (+0800)
-##Last-Updated: 六 4月 11 21:12:23 2015 (+0800)
+##Last-Updated: 日 7月 31 20:38:19 2016 (+0800)
 ##          By: Hongyi Wu(吴鸿毅)
-##    Update #: 2
+##    Update #: 4
 ##URL: http://wuhongyi.github.io 
+
+## Boost Doxygen GCCXML GIF Git Gnuplot GSL  HDF5  Java  JPEG  LAPACK  LATEX Matlab  MPI OpenMP  PNG Ruby  XercesC ZLIB
 
 #OpenMP
 FIND_PACKAGE( OpenMP REQUIRED)  #OpenMP并行
@@ -29,6 +31,35 @@ endif()
 if(MPI_FOUND)  
 #TARGET_LINK_LIBRARIES(TargetName ${MPI_LIBRARIES})     # 连接系统MPI相关库文件
 endif()
+
+
+
+
+find_package(MatLab REQUIRED)
+if(NOT MATLAB_MEX_PATH)
+  message("MATLAB_MEX_PATH not found, you must not be using the new FindMatlab.cmake")
+endif()
+
+
+find_package(LATEX)
+find_package(LATEX COMPONENTS PDFLATEX)
+find_package(LATEX COMPONENTS BIBTEX PS2PDF)
+
+
+
+find_package(ZLIB)
+if(ZLIB_FOUND)
+  include_directories(${ZLIB_INCLUDE_DIRS})
+  target_link_libraries(MyProg ${ZLIB_LIBRARIES})
+endif()
+
+
+find_package(XercesC REQUIRED)
+if(XercesC_FOUND)
+  include_directories( ${XercesC_INCLUDE_DIRS} )
+endif()
+target_link_libraries( ${PROJECT_NAME} ${XercesC_LIBRARIES} )
+
 
 
 
