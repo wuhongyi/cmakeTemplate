@@ -4,9 +4,9 @@
 # Author: Hongyi Wu(吴鸿毅)
 # Email: wuhongyi@qq.com 
 # Created: 六 2月 22 19:39:08 2014 (+0800)
-# Last-Updated: 二 8月 16 16:19:57 2016 (+0800)
+# Last-Updated: 二 8月 16 17:01:44 2016 (+0800)
 #           By: Hongyi Wu(吴鸿毅)
-#     Update #: 78
+#     Update #: 79
 # URL: http://wuhongyi.github.io 
 
 #cmake编译、运行程序模板！
@@ -50,6 +50,12 @@ set( ${PROJECT_NAME}_VERSION_MINOR 1 )
 set( ${PROJECT_NAME}_VERSION_PATCH 1 )
 
 SET(CMAKE_BUILD_TYPE Debug) #编译调试版本
+
+ADD_DEFINITIONS(
+ -O3 -W -Wall
+ -Wunused-variable -Wunused-parameter -Wunused-function -Wunused -Wno-deprecated -Wwrite-strings
+ -D__WUR= -D_FILE_OFFSET_BITS=64 
+)
 
 #----------------------------------------------------------------------------
 
