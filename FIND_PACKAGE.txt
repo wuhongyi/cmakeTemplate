@@ -7,7 +7,7 @@
 ##Last-Updated: 日 7月 31 20:38:19 2016 (+0800)
 ##          By: Hongyi Wu(吴鸿毅)
 ##    Update #: 4
-##URL: http://wuhongyi.github.io 
+##URL: http://wuhongyi.cn 
 
 ## Boost Doxygen GCCXML GIF Git Gnuplot GSL  HDF5  Java  JPEG  LAPACK  LATEX Matlab  MPI OpenMP  PNG Ruby  XercesC ZLIB
 

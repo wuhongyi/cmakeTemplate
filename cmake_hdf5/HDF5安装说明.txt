@@ -7,7 +7,7 @@ HDF5安装说明.txt ---
 ;; Last-Updated: 五 6月 13 16:49:27 2014 (+0800)
 ;;           By: Hongyi Wu(吴鸿毅)
 ;;     Update #: 2
-;; URL: http://wuhongyi.github.io 
+;; URL: http://wuhongyi.cn 
 
 
 HDF5安装之后支持C++、fortron两种语言，下面的说明就只拿C++举例！

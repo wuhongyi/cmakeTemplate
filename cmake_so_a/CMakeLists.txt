@@ -7,7 +7,7 @@
 # Last-Updated: 三 12月 10 16:01:15 2014 (+0800)
 #           By: Hongyi Wu(吴鸿毅)
 #     Update #: 9
-# URL: http://wuhongyi.github.io 
+# URL: http://wuhongyi.cn 
 
 #cmake
 #使用方法：将所有点hh文件放置到include文件夹，点cc文件放置到src

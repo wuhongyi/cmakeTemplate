@@ -7,7 +7,7 @@
 ## Last-Updated: 一 8月  1 13:21:09 2016 (+0800)
 ##           By: Hongyi Wu(吴鸿毅)
 ##     Update #: 24
-## URL: http://wuhongyi.github.io 
+## URL: http://wuhongyi.cn 
 
 cmake_minimum_required(VERSION 2.8.4 FATAL_ERROR)
 

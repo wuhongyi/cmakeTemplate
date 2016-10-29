@@ -7,7 +7,7 @@
 ## Last-Updated: 三 12月 10 15:59:57 2014 (+0800)
 ##           By: Hongyi Wu(吴鸿毅)
 ##     Update #: 15
-## URL: http://wuhongyi.github.io 
+## URL: http://wuhongyi.cn 
 
 #cmake编译、运行程序模板！
 #使用方法：将所有点hh文件放置到include文件夹，点cc文件放置到src

@@ -7,7 +7,7 @@
 // Last-Updated: 六 4月 23 14:53:09 2016 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 137
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #ifndef _WUROOT_H_
 #define _WUROOT_H_

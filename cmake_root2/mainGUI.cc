@@ -7,7 +7,7 @@
 // Last-Updated: 六 4月 25 15:11:07 2015 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 11
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #include "TRint.h"
 #include "TObject.h"

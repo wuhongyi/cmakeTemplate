@@ -7,7 +7,7 @@
 // Last-Updated: 一 4月 27 13:03:07 2015 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 54
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #ifndef _WUMAINFRAME_H_
 #define _WUMAINFRAME_H_

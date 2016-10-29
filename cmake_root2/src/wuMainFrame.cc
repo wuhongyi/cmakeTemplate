@@ -7,7 +7,7 @@
 // Last-Updated: 一 4月 27 10:37:16 2015 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 51
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #include "wuMainFrame.hh"
 #include <cmath>

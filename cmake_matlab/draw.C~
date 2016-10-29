@@ -7,7 +7,7 @@
 // Last-Updated: 五 2月 28 11:08:39 2014 (+0800)
 //           By: HongyiWu,吴鸿毅
 //     Update #: 39
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 #include "TCanvas.h"
 #include "TGraph.h"
 using namespace std;

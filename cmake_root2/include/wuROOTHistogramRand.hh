@@ -7,7 +7,7 @@
 // Last-Updated: 六 2月 20 13:39:01 2016 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 1
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 //ROOT使用
 //采用ROOT随机数

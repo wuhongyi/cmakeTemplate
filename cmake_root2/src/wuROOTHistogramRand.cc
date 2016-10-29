@@ -7,7 +7,7 @@
 // Last-Updated: 六 2月 20 13:44:15 2016 (+0800)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 2
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #include "wuROOTHistogramRand.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

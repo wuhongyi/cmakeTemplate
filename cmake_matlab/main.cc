@@ -7,7 +7,7 @@
 // Last-Updated: 五 8月 15 08:53:46 2014 (-0400)
 //           By: Hongyi Wu(吴鸿毅)
 //     Update #: 31
-// URL: http://wuhongyi.github.io 
+// URL: http://wuhongyi.cn 
 
 #include <iostream>
 #include <cmath>
