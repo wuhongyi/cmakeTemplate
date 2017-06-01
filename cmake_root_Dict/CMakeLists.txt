@@ -4,9 +4,9 @@
 # Author: Hongyi Wu(吴鸿毅)
 # Email: wuhongyi@qq.com 
 # Created: 六 2月 22 19:44:06 2014 (+0800)
-# Last-Updated: 日 7月 31 19:27:43 2016 (+0800)
+# Last-Updated: 四 6月  1 20:44:52 2017 (+0800)
 #           By: Hongyi Wu(吴鸿毅)
-#     Update #: 50
+#     Update #: 51
 # URL: http://wuhongyi.cn 
 
 #cmake编译、运行程序模板！
@@ -32,8 +32,8 @@ find_package( ROOT COMPONENTS ASImage EG FFTW FitPanel Ged Geom Gui GuiBld GuiHt
 #----------------------------------------------------------------------------
 #指出所需hh，cc，so，a文件位置路径，并用变量命名
 include_directories(${PROJECT_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS})
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*)
 file(GLOB libs ${PROJECT_SOURCE_DIR}/lib/*)
 
 set(headerfiles ${PROJECT_SOURCE_DIR}/include/*.hh )

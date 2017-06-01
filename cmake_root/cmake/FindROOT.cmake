@@ -1,318 +1,185 @@
-###############################################################################
-# cmake module for finding ROOT
+# - Finds ROOT instalation
+# This module sets up ROOT information
+# It defines:
+# ROOT_FOUND          If the ROOT is found
+# ROOT_INCLUDE_DIR    PATH to the include directory
+# ROOT_INCLUDE_DIRS   PATH to the include directories (not cached)
+# ROOT_LIBRARIES      Most common libraries
+# ROOT_<name>_LIBRARY Full path to the library <name>
+# ROOT_LIBRARY_DIR    PATH to the library directory
+# ROOT_DEFINITIONS    Compiler definitions
+# ROOT_CXX_FLAGS      Compiler flags to used by client packages
+# ROOT_C_FLAGS        Compiler flags to used by client packages
 #
-# requires:
-#   MacroCheckPackageLibs.cmake for checking package libraries
-#
-# Following cmake variables are returned by this module:
-#
-#   ROOT_FOUND              : set to TRUE if ROOT found
-#       If FIND_PACKAGE is called with REQUIRED and COMPONENTS arguments
-#       ROOT_FOUND is only set to TRUE if ALL components are found.
-#       If REQUIRED is NOT set components may or may not be available
-#
-#   ROOT_LIBRARIES          : list of ROOT libraries (NOT including COMPONENTS)
-#   ROOT_INCLUDE_DIRS       : list of paths to be used with INCLUDE_DIRECTORIES
-#   ROOT_LIBRARY_DIRS       : list of paths to be used with LINK_DIRECTORIES
-#   ROOT_COMPONENT_LIBRARIES    : list of ROOT component libraries
-#   ROOT_${COMPONENT}_FOUND     : set to TRUE or FALSE for each library
-#   ROOT_${COMPONENT}_LIBRARY   : path to individual libraries
-#   
-#
-#   Please note that by convention components should be entered exactly as
-#   the library names, i.e. the component name equivalent to the library
-#   $ROOTSYS/lib/libMathMore.so should be called MathMore and NOT:
-#       mathmore or Mathmore or MATHMORE
-#
-#   However to follow the usual cmake convention it is agreed that the
-#   ROOT_${COMPONENT}_FOUND and ROOT_${COMPONENT}_LIBRARY variables are ALL
-#   uppercase, i.e. the MathMore component returns: ROOT_MATHMORE_FOUND and
-#   ROOT_MATHMORE_LIBRARY NOT ROOT_MathMore_FOUND or ROOT_MathMore_LIBRARY
-#
-#
-# The additional ROOT components should be defined as follows:
-# FIND_PACKAGE( ROOT COMPONENTS MathMore Gdml Geom ...)
-#
-# If components are required use:
-# FIND_PACKAGE( ROOT REQUIRED COMPONENTS MathMore Gdml Geom ...)
-#
-# If only root is required and components are NOT required use:
-# FIND_PACKAGE( ROOT REQUIRED )
-# FIND_PACKAGE( ROOT COMPONENTS MathMore Gdml Geom ... QUIET )
-#   then you need to check for ROOT_MATHMORE_FOUND, ROOT_GDML_FOUND, etc.
-#
-# The variable ROOT_USE_COMPONENTS can also be used before calling
-# FIND_PACKAGE, i.e.:
-# SET( ROOT_USE_COMPONENTS MathMore Gdml Geom )
-# FIND_PACKAGE( ROOT REQUIRED ) # all ROOT_USE_COMPONENTS must also be found
-# FIND_PACKAGE( ROOT ) # check for ROOT_FOUND, ROOT_MATHMORE_FOUND, etc.
-#
-# @author Jan Engels, DESY
-###############################################################################
-
-
-
-# ==============================================
-# ===        ROOT_CONFIG_EXECUTABLE          ===
-# ==============================================
-
-SET( ROOT_CONFIG_EXECUTABLE ROOT_CONFIG_EXECUTABLE-NOTFOUND )
-MARK_AS_ADVANCED( ROOT_CONFIG_EXECUTABLE )
-FIND_PROGRAM( ROOT_CONFIG_EXECUTABLE root-config PATHS ${ROOT_DIR}/bin NO_DEFAULT_PATH )
-IF( NOT ROOT_DIR )
-    FIND_PROGRAM( ROOT_CONFIG_EXECUTABLE root-config )
-ENDIF()
-
-
-IF( NOT ROOT_FIND_QUIETLY )
-    MESSAGE( STATUS "Check for ROOT_CONFIG_EXECUTABLE: ${ROOT_CONFIG_EXECUTABLE}" )
-ENDIF()
-
-
-IF( ROOT_CONFIG_EXECUTABLE )
-
-
-    # ==============================================
-    # ===          ROOT_VERSION                  ===
-    # ==============================================
-
-    INCLUDE( MacroCheckPackageVersion )
-    
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --version
-        OUTPUT_VARIABLE _version
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( _exit_code EQUAL 0 )
-
-        # set required variables for MacroCheckPackageVersion
-        STRING(REGEX REPLACE "^([0-9]+).*" "\\1" ROOT_VERSION_MAJOR "${_version}")
-        STRING(REGEX REPLACE "^[0-9]+.([0-9]+).*" "\\1" ROOT_VERSION_MINOR "${_version}")
-        STRING(REGEX REPLACE "^[0-9]+.[0-9]+.([0-9]+).*" "\\1" ROOT_VERSION_PATCH "${_version}")
-
-        SET( ROOT_VERSION "${ROOT_VERSION_MAJOR}.${ROOT_VERSION_MINOR}.${ROOT_VERSION_PATCH}" )
-    ENDIF()
-
-    CHECK_PACKAGE_VERSION( ROOT ${ROOT_VERSION} )
-
-
-
-    # ==============================================
-    # ===          ROOT_PREFIX                   ===
-    # ==============================================
-
-    # get root prefix from root-config output
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --prefix
-        OUTPUT_VARIABLE ROOT_PREFIX
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( NOT _exit_code EQUAL 0 )
-        # clear variable if root-config exits with error
-        # it might contain garbage
-        SET( ROOT_PREFIX )
-    ENDIF()
-
-    # PKG_ROOT variables are a cmake standard
-    # since this package is also called ROOT the variable name
-    # becomes ROOT_ROOT ...
-    SET( ROOT_ROOT ${ROOT_PREFIX} )
-
-
-
-    # ==============================================
-    # ===          ROOT_BIN_DIR                  ===
-    # ==============================================
-
-    # get bindir from root-config output
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --bindir
-        OUTPUT_VARIABLE ROOT_BIN_DIR
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( NOT _exit_code EQUAL 0 )
-        # clear variable if root-config exits with error
-        # it might contain garbage
-        SET( ROOT_BIN_DIR )
-    ENDIF()
-
-
-
-    # ==============================================
-    # ===          ROOT_EXECUTABLE               ===
-    # ==============================================
-
-
-    SET( ROOT_EXECUTABLE ROOT_EXECUTABLE-NOTFOUND )
-    MARK_AS_ADVANCED( ROOT_EXECUTABLE )
-    FIND_PROGRAM( ROOT_EXECUTABLE root PATHS ${ROOT_BIN_DIR} NO_DEFAULT_PATH )
-
-    IF( NOT ROOT_FIND_QUIETLY )
-        MESSAGE( STATUS "Check for ROOT_EXECUTABLE: ${ROOT_EXECUTABLE}" )
-    ENDIF()
-
-
-
-
-    # ==============================================
-    # ===          ROOT_CINT_EXECUTABLE          ===
-    # ==============================================
-
-
-    # find rootcint
-    SET( ROOT_CINT_EXECUTABLE ROOT_CINT_EXECUTABLE-NOTFOUND )
-    MARK_AS_ADVANCED( ROOT_CINT_EXECUTABLE )
-    FIND_PROGRAM( ROOT_CINT_EXECUTABLE rootcint PATHS ${ROOT_BIN_DIR} NO_DEFAULT_PATH )
-
-    IF( NOT ROOT_FIND_QUIETLY )
-        MESSAGE( STATUS "Check for ROOT_CINT_EXECUTABLE: ${ROOT_CINT_EXECUTABLE}" )
-    ENDIF()
-
-
-
-    # ==============================================
-    # ===          ROOT_INCLUDE_DIR              ===
-    # ==============================================
-
-    # get include dir from root-config output
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --incdir
-        OUTPUT_VARIABLE _inc_dir
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( NOT _exit_code EQUAL 0 )
-        # clear variable if root-config exits with error
-        # it might contain garbage
-        SET( _inc_dir )
-    ENDIF()
-
-
-    SET( ROOT_INCLUDE_DIRS ROOT_INCLUDE_DIRS-NOTFOUND )
-    MARK_AS_ADVANCED( ROOT_INCLUDE_DIRS )
-
-    FIND_PATH( ROOT_INCLUDE_DIRS
-        NAMES TH1.h
-        PATHS ${ROOT_DIR}/include ${_inc_dir}
-        NO_DEFAULT_PATH
-    )
-
-
-
-    # ==============================================
-    # ===            ROOT_LIBRARIES              ===
-    # ==============================================
-
-    # get library dir from root-config output
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --libdir
-        OUTPUT_VARIABLE ROOT_LIBRARY_DIR
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( NOT _exit_code EQUAL 0 )
-        # clear variable if root-config exits with error
-        # it might contain garbage
-        SET( ROOT_LIBRARY_DIR )
-    ENDIF()
-
-
-
-    # ========== standard root libraries =================
-
-    # standard root libraries (without components)
-    SET( _root_libnames )
-
-    # get standard root libraries from 'root-config --libs' output
-    EXECUTE_PROCESS( COMMAND "${ROOT_CONFIG_EXECUTABLE}" --noauxlibs --libs
-        OUTPUT_VARIABLE _aux
-        RESULT_VARIABLE _exit_code
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    IF( _exit_code EQUAL 0 )
-     
-        # create a list out of the output
-        SEPARATE_ARGUMENTS( _aux )
-
-        # remove first item -L compiler flag
-        LIST( REMOVE_AT _aux 0 )
-        
-        FOREACH( _lib ${_aux} )
-
-            # extract libnames from -l compiler flags
-            STRING( REGEX REPLACE "^-.(.*)$" "\\1" _libname "${_lib}")
-
-            # fix for some root-config versions which export -lz even if using --noauxlibs
-            IF( NOT _libname STREQUAL "z" )
-
-                # append all library names into a list
-                LIST( APPEND _root_libnames ${_libname} )
-
-            ENDIF()
-
-        ENDFOREACH()
-    ENDIF()
-
-
-
-    # ========== additional root components =================
-
-    #LIST( APPEND ROOT_FIND_COMPONENTS Minuit2 ) # DEPRECATED !!!
-
-
-    # ---------- libraries --------------------------------------------------------
-    INCLUDE( MacroCheckPackageLibs )
-
-    SET( ROOT_LIB_SEARCH_PATH ${ROOT_LIBRARY_DIR} )
-
-    # only standard libraries should be passed as arguments to CHECK_PACKAGE_LIBS
-    # additional components are set by cmake in variable PKG_FIND_COMPONENTS
-    # first argument should be the package name
-    CHECK_PACKAGE_LIBS( ROOT ${_root_libnames} )
-
-
-
-
-    # ====== DL LIBRARY ==================================================
-    # workaround for cmake bug in 64 bit:
-    # see: http://public.kitware.com/mantis/view.php?id=10813
-    IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-        FIND_LIBRARY( DL_LIB NAMES ${CMAKE_DL_LIBS} dl PATHS /usr/lib64 /lib64 NO_DEFAULT_PATH )
-    ENDIF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-
-    FIND_LIBRARY( DL_LIB NAMES ${CMAKE_DL_LIBS} dl )
-    MARK_AS_ADVANCED( DL_LIB )
-
-    IF( NOT ROOT_FIND_QUIETLY )
-        MESSAGE( STATUS "Check for libdl.so: ${DL_LIB}" )
-    ENDIF()
-
-ENDIF( ROOT_CONFIG_EXECUTABLE )
-
-# Threads library
-#FIND_PACKAGE( Threads REQUIRED)
-
-
-# ---------- final checking ---------------------------------------------------
-INCLUDE( FindPackageHandleStandardArgs )
-# set ROOT_FOUND to TRUE if all listed variables are TRUE and not empty
-# ROOT_COMPONENT_VARIABLES will be set if FIND_PACKAGE is called with REQUIRED argument
-FIND_PACKAGE_HANDLE_STANDARD_ARGS( ROOT DEFAULT_MSG ROOT_INCLUDE_DIRS ROOT_LIBRARIES ${ROOT_COMPONENT_VARIABLES} PACKAGE_VERSION_COMPATIBLE DL_LIB )
-
-IF( ROOT_FOUND )
-    LIST( APPEND ROOT_LIBRARIES ${DL_LIB} )
-    # FIXME DEPRECATED
-    SET( ROOT_DEFINITIONS "-DUSEROOT -DUSE_ROOT -DMARLIN_USE_ROOT" )
-    MARK_AS_ADVANCED( ROOT_DEFINITIONS )
-
-    # file including MACROS for generating root dictionary sources
-    GET_FILENAME_COMPONENT( _aux ${CMAKE_CURRENT_LIST_FILE} PATH )
-    SET( ROOT_DICT_MACROS_FILE ${_aux}/MacroRootDict.cmake )
-
-ENDIF( ROOT_FOUND )
-
-# ---------- cmake bug --------------------------------------------------------
-# ROOT_FIND_REQUIRED is not reset between FIND_PACKAGE calls, i.e. the following
-# code fails when geartgeo component not available: (fixed in cmake 2.8)
-# FIND_PACKAGE( ROOT REQUIRED )
-# FIND_PACKAGE( ROOT COMPONENTS geartgeo QUIET )
-SET( ROOT_FIND_REQUIRED )
+# Updated by K. Smith (ksmith37@nd.edu) to properly handle
+#  dependencies in ROOT_GENERATE_DICTIONARY
+
+find_program(ROOT_CONFIG_EXECUTABLE root-config
+  HINTS $ENV{ROOTSYS}/bin)
+
+execute_process(
+    COMMAND ${ROOT_CONFIG_EXECUTABLE} --prefix
+    OUTPUT_VARIABLE ROOTSYS
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+execute_process(
+    COMMAND ${ROOT_CONFIG_EXECUTABLE} --version
+    OUTPUT_VARIABLE ROOT_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+execute_process(
+    COMMAND ${ROOT_CONFIG_EXECUTABLE} --incdir
+    OUTPUT_VARIABLE ROOT_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(ROOT_INCLUDE_DIRS ${ROOT_INCLUDE_DIR})
+
+execute_process(
+    COMMAND ${ROOT_CONFIG_EXECUTABLE} --libdir
+    OUTPUT_VARIABLE ROOT_LIBRARY_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(ROOT_LIBRARY_DIRS ${ROOT_LIBRARY_DIR})
+
+set(rootlibs Core Cint RIO Net Hist Graf Graf3d Gpad Tree Rint Postscript Matrix Physics MathCore Thread)
+set(ROOT_LIBRARIES)
+foreach(_cpt ${rootlibs} ${ROOT_FIND_COMPONENTS})
+  find_library(ROOT_${_cpt}_LIBRARY ${_cpt} HINTS ${ROOT_LIBRARY_DIR})
+  if(ROOT_${_cpt}_LIBRARY)
+    mark_as_advanced(ROOT_${_cpt}_LIBRARY)
+    list(APPEND ROOT_LIBRARIES ${ROOT_${_cpt}_LIBRARY})
+    list(REMOVE_ITEM ROOT_FIND_COMPONENTS ${_cpt})
+  endif()
+endforeach()
+list(REMOVE_DUPLICATES ROOT_LIBRARIES)
+
+execute_process(
+    COMMAND ${ROOT_CONFIG_EXECUTABLE} --cflags
+    OUTPUT_VARIABLE __cflags
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+string(REGEX MATCHALL "-(D|U)[^ ]*" ROOT_DEFINITIONS "${__cflags}")
+string(REGEX REPLACE "(^|[ ]*)-I[^ ]*" "" ROOT_CXX_FLAGS "${__cflags}")
+string(REGEX REPLACE "(^|[ ]*)-I[^ ]*" "" ROOT_C_FLAGS "${__cflags}")
+
+set(ROOT_USE_FILE ${CMAKE_CURRENT_LIST_DIR}/RootUseFile.cmake)
+
+execute_process(
+  COMMAND ${ROOT_CONFIG_EXECUTABLE} --features
+  OUTPUT_VARIABLE _root_options
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+separate_arguments(_root_options)
+foreach(_opt ${_root_options})
+  set(ROOT_${_opt}_FOUND TRUE)
+endforeach()
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(ROOT DEFAULT_MSG ROOT_CONFIG_EXECUTABLE
+    ROOTSYS ROOT_VERSION ROOT_INCLUDE_DIR ROOT_LIBRARIES ROOT_LIBRARY_DIR)
+
+mark_as_advanced(ROOT_CONFIG_EXECUTABLE)
+
+include(CMakeParseArguments)
+find_program(ROOTCINT_EXECUTABLE rootcint HINTS $ENV{ROOTSYS}/bin)
+find_program(GENREFLEX_EXECUTABLE genreflex HINTS $ENV{ROOTSYS}/bin)
+find_package(GCCXML)
+
+#----------------------------------------------------------------------------
+# function ROOT_GENERATE_DICTIONARY( dictionary
+#                                    header1 header2 ...
+#                                    LINKDEF linkdef1 ...
+#                                    OPTIONS opt1...)
+function(ROOT_GENERATE_DICTIONARY dictionary)
+  CMAKE_PARSE_ARGUMENTS(ARG "" "" "LINKDEF;OPTIONS" "" ${ARGN})
+  #---Get the list of include directories------------------
+  get_directory_property(incdirs INCLUDE_DIRECTORIES)
+  set(includedirs)
+  foreach( d ${incdirs})
+     set(includedirs ${includedirs} -I${d})
+  endforeach()
+  #---Get the list of header files-------------------------
+  set(headerfiles)
+  foreach(fp ${ARG_UNPARSED_ARGUMENTS})
+    if(${fp} MATCHES "[*?]") # Is this header a globbing expression?
+      file(GLOB files ${fp})
+      foreach(f ${files})
+        if(NOT f MATCHES LinkDef) # skip LinkDefs from globbing result
+          set(headerfiles ${headerfiles} ${f})
+        endif()
+      endforeach()
+    else()
+      find_file(headerFile ${fp} HINTS ${incdirs})
+      set(headerfiles ${headerfiles} ${headerFile})
+      unset(headerFile CACHE)
+    endif()
+  endforeach()
+  #---Get LinkDef.h file------------------------------------
+  set(linkdefs)
+  foreach( f ${ARG_LINKDEF})
+    find_file(linkFile ${f} HINTS ${incdirs})
+    set(linkdefs ${linkdefs} ${linkFile})
+    unset(linkFile CACHE)
+  endforeach()
+  #---call rootcint------------------------------------------
+  add_custom_command(OUTPUT ${dictionary}.cxx
+                     COMMAND ${ROOTCINT_EXECUTABLE} -cint -f  ${dictionary}.cxx
+                                          -c ${ARG_OPTIONS} ${includedirs} ${headerfiles} ${linkdefs}
+                     DEPENDS ${headerfiles} ${linkdefs} VERBATIM)
+endfunction()
+
+#----------------------------------------------------------------------------
+# function REFLEX_GENERATE_DICTIONARY(dictionary
+#                                     header1 header2 ...
+#                                     SELECTION selectionfile ...
+#                                     OPTIONS opt1...)
+function(REFLEX_GENERATE_DICTIONARY dictionary)
+  CMAKE_PARSE_ARGUMENTS(ARG "" "" "SELECTION;OPTIONS" "" ${ARGN})
+  #---Get the list of header files-------------------------
+  set(headerfiles)
+  foreach(fp ${ARG_UNPARSED_ARGUMENTS})
+    file(GLOB files ${fp})
+    if(files)
+      foreach(f ${files})
+        set(headerfiles ${headerfiles} ${f})
+      endforeach()
+    else()
+      set(headerfiles ${headerfiles} ${fp})
+    endif()
+  endforeach()
+  #---Get Selection file------------------------------------
+  if(IS_ABSOLUTE ${ARG_SELECTION})
+    set(selectionfile ${ARG_SELECTION})
+  else()
+    set(selectionfile ${CMAKE_CURRENT_SOURCE_DIR}/${ARG_SELECTION})
+  endif()
+  #---Get the list of include directories------------------
+  get_directory_property(incdirs INCLUDE_DIRECTORIES)
+  set(includedirs)
+  foreach( d ${incdirs})
+    set(includedirs ${includedirs} -I${d})
+  endforeach()
+  #---Get preprocessor definitions--------------------------
+  get_directory_property(defs COMPILE_DEFINITIONS)
+  foreach( d ${defs})
+   set(definitions ${definitions} -D${d})
+  endforeach()
+  #---Nanes and others---------------------------------------
+  set(gensrcdict ${dictionary}.cpp)
+  if(MSVC)
+    set(gccxmlopts "--gccxmlopt=\"--gccxml-compiler cl\"")
+  else()
+    #set(gccxmlopts "--gccxmlopt=\'--gccxml-cxxflags -m64 \'")
+    set(gccxmlopts)
+  endif()
+  #set(rootmapname ${dictionary}Dict.rootmap)
+  #set(rootmapopts --rootmap=${rootmapname} --rootmap-lib=${libprefix}${dictionary}Dict)
+  #---Check GCCXML and get path-----------------------------
+  if(GCCXML)
+    get_filename_component(gccxmlpath ${GCCXML} PATH)
+  else()
+    message(WARNING "GCCXML not found. Install and setup your environment to find 'gccxml' executable")
+  endif()
+  #---Actual command----------------------------------------
+  add_custom_command(OUTPUT ${gensrcdict} ${rootmapname}
+                     COMMAND ${GENREFLEX_EXECUTABLE} ${headerfiles} -o ${gensrcdict} ${gccxmlopts} ${rootmapopts} --select=${selectionfile}
+                             --gccxmlpath=${gccxmlpath} ${ARG_OPTIONS} ${includedirs} ${definitions}
+                     DEPENDS ${headerfiles} ${selectionfile})
+endfunction()
 

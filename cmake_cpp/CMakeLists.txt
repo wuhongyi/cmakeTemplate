@@ -4,9 +4,9 @@
 # Author: Hongyi Wu(吴鸿毅)
 # Email: wuhongyi@qq.com 
 # Created: 六 2月 22 19:39:08 2014 (+0800)
-# Last-Updated: 二 8月 16 17:01:44 2016 (+0800)
+# Last-Updated: 四 6月  1 20:46:05 2017 (+0800)
 #           By: Hongyi Wu(吴鸿毅)
-#     Update #: 79
+#     Update #: 80
 # URL: http://wuhongyi.cn 
 
 #cmake编译、运行程序模板！
@@ -71,8 +71,8 @@ endif()
 
 #指出所需hh，cc，so，a文件位置路径，并用变量命名
 include_directories(${PROJECT_SOURCE_DIR}/include  )
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*)
 file(GLOB libs ${PROJECT_SOURCE_DIR}/lib/*)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin) #生成可执行文件放在bin文件夹中
 
@@ -81,7 +81,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin) #生成可执行�
 #add_executable()后面的是一个参数列表，可带多个要编译的文件名，中间以空格或回车等隔开。生成一个可执行文件
 add_executable(${PROJ_NAME} input.cc ${sources} ${headers})
 #链接库，后面补上名称
-target_link_libraries(${PROJ_NAME} ${libs} -pthread  m dl -rdynamic )
+target_link_libraries(${PROJ_NAME} ${libs})
 
 #----------------------------------------------------------------------------
 

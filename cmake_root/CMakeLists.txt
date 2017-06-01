@@ -4,9 +4,9 @@
 # Author: Hongyi Wu(吴鸿毅)
 # Email: wuhongyi@qq.com 
 # Created: 六 2月 22 19:44:06 2014 (+0800)
-# Last-Updated: 日 5月 14 14:24:47 2017 (+0800)
+# Last-Updated: 四 6月  1 20:43:31 2017 (+0800)
 #           By: Hongyi Wu(吴鸿毅)
-#     Update #: 50
+#     Update #: 52
 # URL: http://wuhongyi.cn 
 
 #cmake编译、运行程序模板！
@@ -20,8 +20,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 #set(CMAKE_CXX_COMPILER "/usr/local/bin/g++") #调用g++4.8.1，原本默认4.4.6
 set(PROJ_NAME wu)
 project(${PROJ_NAME})
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wno-deprecated") #支持最新c++11
-#c++0x是新的C++意思。而-Wno-deprecated是表示 no-deprecated这类警告忽略。
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wno-deprecated") #支持最新c++11。而-Wno-deprecated是表示 no-deprecated这类警告忽略。
 SET(CMAKE_BUILD_TYPE Debug) 
 #----------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
@@ -39,10 +38,7 @@ file(GLOB libs ${PROJECT_SOURCE_DIR}/lib/*)
 #add_executable()后面的是一个参数列表，可带多个要编译的文件名，中间以空格或回车等隔开。生成一个可执行文件
 add_executable(${PROJ_NAME} mainGUI.cc ${sources} ${headers})
 
-target_link_libraries(${PROJ_NAME} ${libs} ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES} )
-
-
-#-L/home/wuhongyi/root/lib Core Cint RIO Net Hist Graf Graf3d Gpad Tree Rint Postscript Matrix Physics MathCore Thread  -pthread  m dl -rdynamic 
+target_link_libraries(${PROJ_NAME} ${libs} ${ROOT_LIBRARIES})
 
 
 #################################
