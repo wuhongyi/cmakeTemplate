@@ -4,12 +4,12 @@
 ##Author: Hongyi Wu(吴鸿毅)
 ##Email: wuhongyi@qq.com 
 ##Created: 六 4月 11 20:53:55 2015 (+0800)
-##Last-Updated: 日 7月 31 20:38:19 2016 (+0800)
+##Last-Updated: 一 6月 25 08:02:46 2018 (+0800)
 ##          By: Hongyi Wu(吴鸿毅)
-##    Update #: 4
+##    Update #: 5
 ##URL: http://wuhongyi.cn 
 
-## Boost Doxygen GCCXML GIF Git Gnuplot GSL  HDF5  Java  JPEG  LAPACK  LATEX Matlab  MPI OpenMP  PNG Ruby  XercesC ZLIB
+## Boost Doxygen GCCXML GIF Git Gnuplot GSL  HDF5  Java  JPEG  LAPACK  LATEX Matlab  MPI OpenMP  PNG Ruby  XercesC ZLIB  cppzmq
 
 #OpenMP
 FIND_PACKAGE( OpenMP REQUIRED)  #OpenMP并行
@@ -61,6 +61,10 @@ endif()
 target_link_libraries( ${PROJECT_NAME} ${XercesC_LIBRARIES} )
 
 
+
+#find cppzmq wrapper, installed by make of cppzmq
+find_package(cppzmq)
+target_link_libraries(*Your Project Name* cppzmq)
 
 
 
